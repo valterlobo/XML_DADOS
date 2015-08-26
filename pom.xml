@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.servicesys.app</groupId>
+    <artifactId>catalogo-dados</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0</version>
+   
+ 
+    <!-- Use relative paths otherwise stylesheet includes will fail miserably -->
+
+    <!--	
+copy /b *.txt combined.txt - Combinar varios arquivos em unico --> 
+	
+	<build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>transform</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <transformationSets>
+            <transformationSet>
+              <dir>src/xml</dir>
+              <stylesheet>src/xsl/cdcatalog.xsl</stylesheet>
+			  <fileMappers>
+                <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+                  <targetExtension>.html</targetExtension>
+                </fileMapper>
+              </fileMappers>
+			   <outputDir>target/html</outputDir>
+            </transformationSet>
+			<transformationSet>
+              <dir>src/xml</dir>
+              <stylesheet>src/xsl/cdcatalogcsv.xsl</stylesheet>
+			  <fileMappers>
+                <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+                  <targetExtension>.csv</targetExtension>
+                </fileMapper>
+              </fileMappers>
+			  <outputDir>target/csv</outputDir>
+            </transformationSet>
+			<transformationSet>
+              <dir>src/xml</dir>
+              <stylesheet>src/xsl/cdcatalogsql.xsl</stylesheet>
+			  <fileMappers>
+                <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+                  <targetExtension>.sql</targetExtension>
+                </fileMapper>
+              </fileMappers>
+			  <outputDir>target/sql</outputDir>
+            </transformationSet>
+          </transformationSets>
+        </configuration>
+		 <dependencies>
+          <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>saxon</artifactId>
+            <version>8.7</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
+	
+</project>
